@@ -38,39 +38,73 @@
           </span>
         </div>
       </div>
+
       <div class="padding-block mt-2">
         <a href=""> {{ post.profile_name }} </a>
         <span class="description"> {{ post.post_text }}</span>
       </div>
-      <div v-if="post.comments.length>3" class="comments padding-block">
-        <button class="clickable text-secondary">
+
+      <div v-if="post.comments.length > 3" class="comments padding-block">
+        <button
+          v-if="!openComments"
+          class="clickable text-secondary"
+          @click="openCloseComments"
+        >
           Mostra tutti e {{ post.comments.length }} i commenti
         </button>
+        <button
+          v-if="openComments"
+          class="clickable text-secondary"
+          @click="openCloseComments"
+        >
+          Mostra meno
+        </button>
 
-        <div v-if="post.comments.length > 0">
-          <a href="">
-            {{ post.comments[0].username }}
-          </a>
-          <span class="comment"> {{ post.comments[0].text }} </span>
+        <div v-if="openComments">
+          <div v-for="(comment, index) in post.comments" :key="index">
+            <a href="">
+              {{ comment.username }}
+            </a>
+            <span class="comment"> {{ comment.text }} </span>
+          </div>
         </div>
       </div>
-
-      <div class="date text-secondary">1 GIORNO FA</div>
+      <div v-else-if="post.comments.length > 0" class="padding-block mt-1">
+        <div>
+          <div v-for="comment,index in post.comments" :key="index">
+            <a href="">
+              {{ comment.username }}
+            </a>
+            <span class="comment"> {{ comment.text }} </span>
+          </div>
+        </div>
+      </div>
+      <div class="date text-secondary">
+        {{ moment(post.date.date).format('DD MMMM Y') }}
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import moment from 'moment'
 export default {
   name: 'Post',
   props: {
+    today: String,
     post: Object,
   },
   data: function () {
     return {
+      moment: moment,
       openComments: false,
       clickedLikes: false,
     }
+  },
+  methods: {
+    openCloseComments() {
+      this.openComments = !this.openComments
+    },
   },
   mounted() {},
 }
@@ -140,7 +174,7 @@ export default {
 button.clickable {
   padding: 0;
 }
-.comments{
+.comments {
   margin-top: 5px;
 }
 </style>

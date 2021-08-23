@@ -41,7 +41,7 @@
                 class="
                   d-flex
                   align-items-center
-                  mt-3
+                  mt-1
                   justify-content-between
                   suggested
                 "

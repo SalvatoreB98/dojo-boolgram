@@ -8,7 +8,7 @@
       </button>
     <div class="stories d-flex">
       <div v-for="(story, index) in stories" :key="index">
-        <div class="story">
+        <div class="story clickable">
           <img class="" :src="story.profile_picture" alt="" />
         </div>
         <span class="story-auth"> {{ story.profile_name }}</span>

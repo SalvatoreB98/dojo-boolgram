@@ -17,9 +17,11 @@
 </template>
 
 <script>
+import moment from 'moment'
 export default {
   name: 'navbar',
   props: {
+
     user: Object,
   },
 }

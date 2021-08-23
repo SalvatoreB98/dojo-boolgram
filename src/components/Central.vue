@@ -7,50 +7,66 @@
           <feed />
         </section>
         <section class="side-bar">
-          <div class="d-flex align-items-center">
-            <div class="p-2">
-              <img
-                class="img-fluid rounded-circle img-fluid profile"
-                src="../assets/profile.jpg"
-                alt=""
-                
-              />
-            </div>
-            <div class="p-2 flex-grow-1 flex-shrink-0">
-              <strong>salvatore_butera </strong>
-              <div class="text-secondary" style="text-align: left">
-                Salvatore Butera
-              </div>
-            </div>
-            <div class="">
-              <a class="text-nowrap" style="text-decoration: none" href="#"
-                >Passa a</a
-              >
-            </div>
-          </div>
-          <div class="d-flex justify-content-between mt-4">
-            <div class="text-secondary" style="font-weight: 600">
-              Suggerimenti per te
-            </div>
-            <div style="font-weight: 600">Mostra tutti</div>
-          </div>
-          <div>
-            <div class="d-flex align-items-center mt-3 justify-content-between suggested">
-              <div class="story">
-                <img class="" src="../assets/profile.jpg" alt="" />
-              </div>
+          <div class="side-container">
+            <div class="d-flex align-items-center">
               <div class="p-2">
-                <div>
-                  <strong class="story-auth"> salvatore_butera </strong>
-                </div>
-                <div>
-                  <span class="text-nowrap small" style="font-weight:500; color:gray"> Consigliati da intstagram </span>
+                <img
+                  class="img-fluid rounded-circle img-fluid profile"
+                  src="../assets/profile.jpg"
+                  alt=""
+                />
+              </div>
+              <div class="p-2 flex-grow-1 flex-shrink-0">
+                <strong>salvatore_butera </strong>
+                <div class="text-secondary" style="text-align: left">
+                  Salvatore Butera
                 </div>
               </div>
-              <div>
-                <a class="text-nowrap" style="text-decoration: none" href="#">
-                  Segui
-                </a>
+              <div class="">
+                <a class="text-nowrap" style="text-decoration: none" href="#"
+                  >Passa a</a
+                >
+              </div>
+            </div>
+            <div class="d-flex justify-content-between mt-4">
+              <div class="text-secondary" style="font-weight: 600">
+                Suggerimenti per te
+              </div>
+              <div style="font-weight: 600">Mostra tutti</div>
+            </div>
+            <div>
+              <div
+                v-for="(sugg, index) in suggested"
+                :key="index"
+                class="
+                  d-flex
+                  align-items-center
+                  mt-3
+                  justify-content-between
+                  suggested
+                "
+              >
+                <div class="story">
+                  <img class="" :src="sugg.profile_picture" alt="" />
+                </div>
+                <div class="p-2">
+                  <div>
+                    <strong class="story-auth"> {{sugg.profile_name}} </strong>
+                  </div>
+                  <div>
+                    <span
+                      class="text-nowrap small"
+                      style="font-weight: 500; color: gray"
+                    >
+                      Consigliati da intstagram
+                    </span>
+                  </div>
+                </div>
+                <div>
+                  <a class="text-nowrap" style="text-decoration: none" href="#">
+                    Segui
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -72,6 +88,23 @@ export default {
     Stories,
     Feed,
   },
+  data: function () {
+    return {
+      suggested: [],
+    }
+  },
+  methods: {
+    getSuggested() {
+      this.$axios
+        .get('https://flynn.boolean.careers/exercises/api/boolgram/profiles')
+        .then((resp) => {
+          this.suggested = resp.data
+        })
+    },
+  },
+  mounted() {
+    this.getSuggested()
+  },
 }
 </script>
 
@@ -86,20 +119,25 @@ main {
   flex-grow: 1;
   max-width: 600px;
 }
-.side-bar {
+.side-container{
+  top: 0;
+  left: 0;
   position: sticky;
+}
+.side-bar {
+  position: relative;
   font-size: 0.9em;
   margin-left: 30px;
-  .profile{
-    width: 56px ;
+  .profile {
+    width: 56px;
   }
-  .suggested{
-    .story{
-        width: 42px;
-        min-width: 42px;
-        height: 42px;
-        min-height: 42px;
-        max-height: 42px;
+  .suggested {
+    .story {
+      width: 42px;
+      min-width: 42px;
+      height: 42px;
+      min-height: 42px;
+      max-height: 42px;
     }
   }
 }

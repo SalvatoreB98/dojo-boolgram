@@ -2,17 +2,18 @@
   <div class="post bordered mb-5">
     <div class="author d-flex align-items-center">
       <div class="auth-img story">
-        <img class="img-fluid" src="../assets/profile.jpg" alt="" />
+        <img class="img-fluid" :src="post.post_image" alt="" />
       </div>
-      <div class="d-flex w-100 justify-content-between" style="margin-left:10px;">
-        <a class="" href="">salvatore_butera</a>
-        <div> <i class="fa fa-ellipsis-h fa-2x" aria-hidden="true"></i> </div>
+      <div
+        class="d-flex w-100 justify-content-between"
+        style="margin-left: 10px"
+      >
+        <a class="" href="">{{ post.profile_name }}</a>
+        <div><i class="fa fa-ellipsis-h fa-2x" aria-hidden="true"></i></div>
       </div>
     </div>
     <div class="img-container">
-      <img class="w-100 h-100"
-        src="https://cdn.pixabay.com/photo/2021/05/08/09/08/sunset-6237951_960_720.jpg"
-        alt=""/>
+      <img class="w-100 h-100" :src="post.post_image" alt="" />
     </div>
     <div class="block">
       <div class="action-container">
@@ -21,19 +22,40 @@
         <i class="fa fa-paper-plane-o clickable" aria-hidden="true"></i>
       </div>
       <div class="likes padding-block">
-        <div>Piace a <strong> salvatore_butera </strong> e altri <strong> 909</strong> </div> 
+        <div v-if="post.likes.length == 1">
+          Piace a <a href=""> {{ post.likes[0].username }} </a>
+        </div>
+        <div v-if="post.likes.length > 1">
+          Piace a
+          <a href=""> {{ post.likes[0].username }} </a>
+          <span v-if="post.likes.length > 2">
+            e
+            <a href="">altri {{ post.likes.length - 1 }} </a>
+          </span>
+          <span v-else>
+            e a
+            <a href=""> {{ post.likes[1].username }} </a>
+          </span>
+        </div>
       </div>
       <div class="padding-block mt-2">
-        <strong> salvatore_butera </strong> <span class="description"> Sunset &#129409;; </span>
+        <a href=""> {{ post.profile_name }} </a>
+        <span class="description"> {{ post.post_text }}</span>
       </div>
       <div class="comments padding-block">
-        <span class="clickable text-secondary">Mostra tutti e 10 i commenti</span>
-        <div><strong> User1 </strong> <span class="comment"> Awesome </span></div>
-        <div><strong> User2 </strong> <span class="comment"> Super! O.o </span></div>
+        <button class="clickable text-secondary">
+          Mostra tutti e {{ post.comments.length }} i commenti
+        </button>
+
+        <div v-if="post.comments.length > 0">
+          <a href="">
+            {{ post.comments[0].username }}
+          </a>
+          <span class="comment"> {{ post.comments[0].text }} </span>
+        </div>
       </div>
-      <div class="date text-secondary">
-        1 GIORNO FA
-      </div>
+
+      <div class="date text-secondary">1 GIORNO FA</div>
     </div>
   </div>
 </template>
@@ -44,11 +66,26 @@ export default {
   props: {
     post: Object,
   },
+  data: function () {
+    return {
+      openComments: false,
+      clickedLikes: false,
+    }
+  },
+  mounted() {},
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+#app {
+  .post {
+    a {
+      color: black;
+      text-decoration: none;
+    }
+  }
+}
 .post {
   text-align: left;
 }
@@ -59,8 +96,8 @@ export default {
   }
 }
 .author {
-    font-size: 0.9em;
-  a{
+  font-size: 0.9em;
+  a {
     color: black;
     font-weight: 500;
     text-decoration: none;
@@ -73,32 +110,34 @@ export default {
     width: 42px;
   }
 }
-.padding-block{
+.padding-block {
   padding: 0px 5px;
 }
-.block{
+.block {
   font-size: 0.9em;
   padding: 0px 10px;
 }
-.action-container{
+.action-container {
   display: flex;
   align-items: center;
   height: 40px;
   text-align: left;
-  i{
-    
-    padding: 10px ;
+  i {
+    padding: 10px;
     font-size: 25px;
   }
 }
-.likes{
+.likes {
   font-weight: 300;
-  strong{
+  strong {
     font-weight: 500;
   }
 }
-.date{
+.date {
   padding: 10px;
   font-size: 10px;
+}
+button.clickable {
+  padding: 0;
 }
 </style>

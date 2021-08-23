@@ -33,7 +33,7 @@ export default {
       this.$axios
         .get('https://flynn.boolean.careers/exercises/api/boolgram/profiles')
         .then((resp) => {
-          console.log(resp)
+
           this.stories = resp.data
         })
     },
@@ -60,7 +60,7 @@ export default {
     filter: drop-shadow(1px 1px 5px #00000080);
     color: white;
     position: absolute;
-    z-index: 10;
+    z-index: 9;
     left: 0;
     top: 50%;
     transform: translateY(-50%);
@@ -69,7 +69,7 @@ export default {
     filter: drop-shadow(1px 1px 5px #00000080);
     color: white;
     position: absolute;
-    z-index: 10;
+    z-index: 9;
     right: 0;
     top: 50%;
     transform: translateY(-50%);

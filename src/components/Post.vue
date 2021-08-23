@@ -42,7 +42,7 @@
         <a href=""> {{ post.profile_name }} </a>
         <span class="description"> {{ post.post_text }}</span>
       </div>
-      <div class="comments padding-block">
+      <div v-if="post.comments.length>3" class="comments padding-block">
         <button class="clickable text-secondary">
           Mostra tutti e {{ post.comments.length }} i commenti
         </button>
@@ -139,5 +139,8 @@ export default {
 }
 button.clickable {
   padding: 0;
+}
+.comments{
+  margin-top: 5px;
 }
 </style>

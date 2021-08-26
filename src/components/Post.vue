@@ -1,6 +1,5 @@
 <template>
   <div class="post bordered mb-5">
-    
     <div class="author d-flex align-items-center">
       <div class="auth-img story">
         <img class="img-fluid" :src="post.post_image" alt="" />
@@ -31,7 +30,9 @@
           <a href=""> {{ post.likes[0].username }} </a>
           <span v-if="post.likes.length > 2">
             e
-            <a v-on:click="$emit('openLikes',index)">altri {{ post.likes.length - 1 }} </a>
+            <a v-on:click="$emit('openLikes', index)"
+              >altri {{ post.likes.length - 1 }}
+            </a>
           </span>
           <span v-else>
             e a
@@ -44,42 +45,57 @@
         <a href=""> {{ post.profile_name }} </a>
         <span class="description"> {{ post.post_text }}</span>
       </div>
+      <div class="comments">
+        <div v-if="post.comments.length > 3" class="comments padding-block">
+          <button
+            v-if="!openComments"
+            class="clickable text-secondary"
+            @click="openCloseComments"
+          >
+            Mostra tutti e {{ post.comments.length }} i commenti
+          </button>
 
-      <div v-if="post.comments.length > 3" class="comments padding-block">
-        <button
-          v-if="!openComments"
-          class="clickable text-secondary"
-          @click="openCloseComments"
-        >
-          Mostra tutti e {{ post.comments.length }} i commenti
-        </button>
-        <button
-          v-if="openComments"
-          class="clickable text-secondary"
-          @click="openCloseComments"
-        >
-          Mostra meno
-        </button>
+          <button
+            v-if="openComments"
+            class="clickable text-secondary"
+            @click="openCloseComments"
+          >
+            Mostra meno
+          </button>
 
-        <div v-if="openComments">
-          <div v-for="(comment, index) in post.comments" :key="index">
-            <a href="">
-              {{ comment.username }}
-            </a>
-            <span class="comment"> {{ comment.text }} </span>
+          <div v-if="openComments">
+            <div v-for="(comment, index) in post.comments" :key="index">
+              <a href="">
+                {{ comment.username }}
+              </a>
+              <span class="comment"> {{ comment.text }} </span>
+            </div>
           </div>
         </div>
-      </div>
-      <div v-else-if="post.comments.length > 0" class="padding-block mt-1">
+
+        <div v-else-if="post.comments.length > 0" class="padding-block mt-1">
+          <div>
+            <div v-for="(comment, index) in post.comments" :key="index">
+              <a href="">
+                {{ comment.username }}
+              </a>
+              <span class="comment"> {{ comment.text }} </span>
+            </div>
+          </div>
+        </div>
+
         <div>
-          <div v-for="comment,index in post.comments" :key="index">
-            <a href="">
-              {{ comment.username }}
-            </a>
-            <span class="comment"> {{ comment.text }} </span>
-          </div>
+          <form action="" class="mt-3 d-flex comment-form">
+            <div class="form-group flex-grow-1">
+              <input v-model="textComment" class="form-control" type="text" placeholder="Commenta..." />
+            </div>
+            <div>
+              <button class="btn btn-s" type="submit" @click="sendMessage()">Pubblica</button>
+            </div>
+          </form>
         </div>
       </div>
+
       <div class="date text-secondary">
         {{ moment(post.date.date).format('DD MMMM Y') }}
       </div>
@@ -101,14 +117,30 @@ export default {
       moment: moment,
       openComments: false,
       clickedLikes: false,
+      textComment: ''
     }
   },
   methods: {
     openCloseComments() {
       this.openComments = !this.openComments
     },
+    sendMessage(){
+      let newComment = {
+        text: this.textComment,
+        username: 'salvatore_butera'
+      }
+      this.textComment = ''
+      this.post.comments.push(newComment);
+    }
   },
-  mounted() {},
+  mounted() {
+    let forms = document.querySelectorAll("[type=submit")
+    forms.forEach((el)=>{
+      el.addEventListener("click",(event)=>{
+        event.preventDefault();
+      })
+    })
+  },
 }
 </script>
 

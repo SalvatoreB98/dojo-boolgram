@@ -130,6 +130,7 @@ export default {
         username: 'salvatore_butera'
       }
       this.textComment = ''
+      this.openComments = true;
       this.post.comments.push(newComment);
     }
   },

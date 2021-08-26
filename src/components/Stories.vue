@@ -1,11 +1,11 @@
 <template>
   <div class="stories-block bordered mb-5">
     <div v-if="storyOpen" class="story-container">
-      <button class="close" @click="closeStory()">
+      <button class="close" @click="closeStory();">
         <i class="fa fa-times fa-2x text-white" aria-hidden="true"></i>
       </button>
       <div class="story-display">
-        <img src="" alt="" />
+        <img :src="stories[this.activeStory].image" alt="" />
       </div>
     </div>
     <button @click="slideLeft()" class="left-scroll">
@@ -21,7 +21,7 @@
         class="text-center block-story"
       >
         <button
-          @click="storyOpen = true"
+          @click="storyOpen = true; openStory(index);"
           class="story clickable d-flex justify-content-center"
         >
           <img class="" :src="story.profile_picture" alt="" />
@@ -39,6 +39,7 @@ export default {
     return {
       stories: [],
       storyOpen: false,
+      activeStory: null
     }
   },
   props: {
@@ -50,7 +51,11 @@ export default {
       this.$axios
         .get('https://flynn.boolean.careers/exercises/api/boolgram/profiles')
         .then((resp) => {
+          resp.data.forEach(story => {
+            story.image = `https://picsum.photos/id/${Math.ceil(Math.random() * (100 - 1) + 1)}/1080/1920`
+          });
           this.stories.push(...resp.data)
+          
         })
     },
 
@@ -67,6 +72,8 @@ export default {
     //Opening the story
     openStory(index) {
       this.stopScrolling()
+      console.log(Math.ceil(Math.random()))
+      this.activeStory = index
     },
     closeStory() {
       this.storyOpen = false
@@ -159,6 +166,12 @@ export default {
   background: rgb(0, 0, 0);
   width: 54vh;
   height: 96vh;
+  border-radius: 10px;
+  img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }
 .story-container {
   animation: entrance 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);

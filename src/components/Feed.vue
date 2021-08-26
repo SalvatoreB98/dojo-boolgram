@@ -10,6 +10,19 @@
         <button class="close" @click="closeLikes">
           <i class="fa fa-times fa-2x" aria-hidden="true"></i>
         </button>
+        <div class="my-overflow p-2">
+          <div
+            v-for="(like, index) in posts[openedPostLikes].likes"
+            :key="index"
+            class="d-flex"
+          >
+            <img class="my-circle" :src="like.profile_picture" alt="" />
+            <span class="d-flex align-items-center bolder">
+              <a href="#"> {{ like.username }} </a>
+            </span>
+            <button class="my-btn">Segui</button>
+          </div>
+        </div>
       </div>
     </div>
     <post
@@ -42,6 +55,7 @@ export default {
       today: moment().format('YYYY-MM-DD'),
       isLoading: true,
       areLikesOpened: false,
+      openedPostLikes: null,
     }
   },
   components: {
@@ -63,7 +77,8 @@ export default {
     //   console.log('OPEN LIKES')
     //   this.$emit('openLikes', index)
     // },
-    openLikes() {
+    openLikes(index) {
+      this.openedPostLikes = index
       console.log('OPEN!L')
       this.areLikesOpened = true
       this.stopScrolling()
@@ -119,21 +134,54 @@ export default {
   animation: entrance2 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
   border-radius: 10px;
   background-color: white;
-  max-width: 400px;
-  min-height: 400px;
-  max-height: 400px;
   width: 400px;
+  height: 400px;
   .fa {
     color: rgb(0, 0, 0);
   }
+  button {
+    padding: 7px;
+  }
 }
-.header{
+.header {
   border-bottom: 1px solid #d4d4d4;
 }
-.close{
+.close {
   position: absolute;
   top: 0;
   right: 0px;
+}
+.my-circle {
+  padding: 5px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+.my-btn {
+  background-color: #1da0f6;
+  border-radius: 5px;
+  color: white;
+  font-weight: 600;
+  margin-left: auto;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.my-overflow {
+  overflow: auto;
+  height: 87%;
+}
+#app {
+  .likes-container {
+    a {
+      text-decoration: none;
+      color: black;
+    }
+  }
+}
+@media screen and(max-width:450px) {
+  .likes-container {
+    height: 100vh;
+  }
 }
 @keyframes entrance {
   0% {

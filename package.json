@@ -15,7 +15,7 @@
     "moment": "^2.29.1",
     "vue": "^2.6.14",
     "vue3-carousel": "^0.1.25",
-    "vuex": "^3.4.0"
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

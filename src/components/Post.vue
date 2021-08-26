@@ -1,5 +1,6 @@
 <template>
   <div class="post bordered mb-5">
+    
     <div class="author d-flex align-items-center">
       <div class="auth-img story">
         <img class="img-fluid" :src="post.post_image" alt="" />
@@ -30,7 +31,7 @@
           <a href=""> {{ post.likes[0].username }} </a>
           <span v-if="post.likes.length > 2">
             e
-            <a href="">altri {{ post.likes.length - 1 }} </a>
+            <a v-on:click="$emit('openLikes',index)">altri {{ post.likes.length - 1 }} </a>
           </span>
           <span v-else>
             e a
@@ -91,6 +92,7 @@ import moment from 'moment'
 export default {
   name: 'Post',
   props: {
+    index: Number,
     today: String,
     post: Object,
   },

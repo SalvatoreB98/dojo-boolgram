@@ -1,12 +1,13 @@
 <template>
   <div>
+   
     <main class="pt-5">
       <div class="d-flex my-wrap justify-content-center">
         <section class="side">
           <stories />
           <feed />
         </section>
-        <section class="side-bar">
+        <section class="side-bar adjust-side">
           <div class="side-container">
             <div class="d-flex align-items-center">
               <div class="p-2">
@@ -51,7 +52,9 @@
                 </div>
                 <div class="p-2">
                   <div>
-                    <strong class="story-auth"> {{sugg.profile_name}} </strong>
+                    <strong class="story-auth">
+                      {{ sugg.profile_name }}
+                    </strong>
                   </div>
                   <div>
                     <span
@@ -102,6 +105,7 @@ export default {
         })
     },
   },
+
   mounted() {
     this.getSuggested()
   },
@@ -119,7 +123,7 @@ main {
   flex-grow: 1;
   max-width: 600px;
 }
-.side-container{
+.side-container {
   top: 0;
   left: 0;
   position: sticky;
@@ -140,6 +144,10 @@ main {
       max-height: 42px;
     }
   }
+}
+
+.adjust-side {
+  transform: translateY(60px);
 }
 @media screen and (max-width: 900px) {
   .side-bar {

@@ -113,7 +113,12 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
+<style lang="scss">
+#app{
+  a{
+    text-decoration: none;
+  }
+}
 main {
   font-size: 0.9em;
   background-color: #fafafa;

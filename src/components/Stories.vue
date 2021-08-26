@@ -1,11 +1,29 @@
 <template>
   <div class="stories-block bordered mb-5">
     <div v-if="storyOpen" class="story-container">
-      <button class="close" @click="closeStory();">
+      <button class="close" @click="closeStory()">
         <i class="fa fa-times fa-2x text-white" aria-hidden="true"></i>
       </button>
-      <div class="story-display">
-        <img :src="stories[this.activeStory].image" alt="" />
+      <div
+        class="story-display"
+        :style="`background-image: url(${
+          stories[this.activeStory].image
+        }); background-size:cover`"
+      >
+        <div class="darken">
+          <div class="d-flex p-2">
+            <img
+              class="my-circle"
+              :src="stories[this.activeStory].profile_picture"
+              alt=""
+            />
+            <span class="d-flex align-items-center bolder">
+              <a href="#" class="text-white">
+                {{ stories[this.activeStory].profile_name }}
+              </a>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
     <button @click="slideLeft()" class="left-scroll">
@@ -21,7 +39,10 @@
         class="text-center block-story"
       >
         <button
-          @click="storyOpen = true; openStory(index);"
+          @click="
+            storyOpen = true
+            openStory(index)
+          "
           class="story clickable d-flex justify-content-center"
         >
           <img class="" :src="story.profile_picture" alt="" />
@@ -39,7 +60,7 @@ export default {
     return {
       stories: [],
       storyOpen: false,
-      activeStory: null
+      activeStory: null,
     }
   },
   props: {
@@ -51,11 +72,12 @@ export default {
       this.$axios
         .get('https://flynn.boolean.careers/exercises/api/boolgram/profiles')
         .then((resp) => {
-          resp.data.forEach(story => {
-            story.image = `https://picsum.photos/id/${Math.ceil(Math.random() * (100 - 1) + 1)}/1080/1920`
-          });
+          resp.data.forEach((story) => {
+            story.image = `https://picsum.photos/id/${Math.ceil(
+              Math.random() * (100 - 1) + 1
+            )}/1080/1920`
+          })
           this.stories.push(...resp.data)
-          
         })
     },
 
@@ -167,11 +189,6 @@ export default {
   width: 54vh;
   height: 96vh;
   border-radius: 10px;
-  img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
 }
 .story-container {
   animation: entrance 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
@@ -190,6 +207,15 @@ export default {
     filter: drop-shadow(0px 0px 5px black);
   }
 }
+.darken {
+  min-height: 250px;
+  background: #11111177;
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.842) 100%
+  );
+}
 @media screen and(max-width:750px) {
   .stories-block {
     .left-scroll {
@@ -198,7 +224,7 @@ export default {
     .right-scroll {
       right: 0;
     }
-    .story-display{
+    .story-display {
       width: 100vw;
       height: 100vh;
     }

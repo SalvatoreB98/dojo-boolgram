@@ -11,6 +11,9 @@
         }); background-size:cover`"
       >
         <div class="darken">
+          <div class="d-flex">
+            <div class="timebar"></div>
+          </div>
           <div class="d-flex p-2">
             <img
               class="my-circle"
@@ -23,6 +26,22 @@
               </a>
             </span>
           </div>
+        </div>
+        <div class="d-flex h-100">
+          <button
+            @click="
+              prevStory()
+              changeStory()
+            "
+            class="w-100 h-100"
+          ></button>
+          <button
+            @click="
+              nextStory()
+              changeStory()
+            "
+            class="w-100 h-100"
+          ></button>
         </div>
       </div>
     </div>
@@ -61,6 +80,7 @@ export default {
       stories: [],
       storyOpen: false,
       activeStory: null,
+      storyTimer: null,
     }
   },
   props: {
@@ -93,13 +113,18 @@ export default {
 
     //Opening the story
     openStory(index) {
+      this.autoChange()
       this.stopScrolling()
       console.log(Math.ceil(Math.random()))
       this.activeStory = index
+      setTimeout((ev) => {
+        document.querySelector('.timebar').classList.add('active')
+      }, 200)
     },
     closeStory() {
       this.storyOpen = false
       this.resetScrolling()
+      clearInterval(this.storyTimer);
     },
     stopScrolling() {
       let body = document.querySelector('body')
@@ -110,6 +135,40 @@ export default {
       let body = document.querySelector('body')
       body.style.height = 'auto'
       body.style.overflow = 'auto'
+    },
+
+    //Manage story
+
+    changeStory() {
+      document.querySelector('.timebar').classList.add('reset-active')
+      document.querySelector('.timebar').classList.remove('reset-active')
+      document.querySelector('.timebar').classList.remove('active')
+      setTimeout(() => {
+        document.querySelector('.timebar').classList.add('active')
+      }, 150)
+    },
+    nextStory() {
+      if (this.activeStory != this.stories.length - 1) {
+        this.activeStory += 1
+        clearInterval(this.storyTimer)
+        this.autoChange()
+      }
+    },
+    prevStory() {
+      if (this.activeStory != 0) {
+        this.activeStory -= 1
+        clearInterval(this.storyTimer)
+        this.autoChange()
+      }
+    },
+    autoChange() {
+      this.storyTimer = setInterval(() => {
+        this.nextStory()
+        this.changeStory()
+        if (this.activeStory == this.stories.length - 1) {
+          clearInterval(this.storyTimer)
+        }
+      }, 5000)
     },
   },
   mounted() {
@@ -215,6 +274,28 @@ export default {
     rgba(0, 0, 0, 0) 0%,
     rgba(0, 0, 0, 0.842) 100%
   );
+}
+.timebar {
+  width: 0;
+  height: 2px;
+  background: white;
+  border-radius: 10px;
+}
+.active {
+  transition: all 5s linear;
+  width: 100%;
+}
+.reset-active {
+  transition: none;
+  width: 0%;
+}
+@keyframes timebar {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
 }
 @media screen and(max-width:750px) {
   .stories-block {

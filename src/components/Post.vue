@@ -17,7 +17,7 @@
     </div>
     <div class="block">
       <div class="action-container">
-        <i class="fa fa-heart-o clickable" aria-hidden="true"></i>
+        <i class="fa clickable" :class="isLiked ? 'fa-heart':'fa-heart-o'" @click="isLiked = !isLiked" aria-hidden="true"></i>
         <i class="fa fa-comment-o clickable" aria-hidden="true"></i>
         <i class="fa fa-paper-plane-o clickable" aria-hidden="true"></i>
       </div>
@@ -117,7 +117,8 @@ export default {
       moment: moment,
       openComments: false,
       clickedLikes: false,
-      textComment: ''
+      textComment: '',
+      isLiked : false
     }
   },
   methods: {
@@ -212,5 +213,10 @@ button.clickable {
 }
 .comments {
   margin-top: 5px;
+}
+
+.fa-heart{
+  animation: entrance2 0.5s cubic-bezier(0.075, 0.82, 0.165, 1) ;
+  color: #ED4956;
 }
 </style>
